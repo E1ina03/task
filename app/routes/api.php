@@ -29,7 +29,6 @@ Route::middleware('auth:api')->delete('/deleteProduct', [ProductController::clas
 Route::middleware('auth:api')->put('/updateProduct', [ProductController::class, 'updateProduct']);
 Route::middleware('auth:api')->put('/updateUser', [UserController::class, 'updateUser']);
 Route::middleware('auth:api')->delete('/deleteUser', [UserController::class, 'deleteUser']);
-
 Route::get('/product/{id}', [ProductController::class, 'getProductsById']);
 Route::post('/create', [UserController::class, 'create']);
  Route::post('/login', [AuthController::class, 'login']);
