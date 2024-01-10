@@ -13,9 +13,9 @@ class Product extends Model
     use HasFactory;
     use Notifiable;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
-    protected $fillable =  [
+    protected $fillable = [
         'id', 'product_name', 'user_id'
     ];
 
