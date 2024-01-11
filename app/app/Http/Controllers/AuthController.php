@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-
     public function __construct(protected AuthServices $authService)
     {
     }
