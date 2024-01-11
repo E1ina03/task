@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Exceptions\Exception;
 use App\Http\Resources\UserResource;
-use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
@@ -42,6 +41,7 @@ class UserServices
     {
         $user->delete();
     }
+
     public function updateUser(User $user, array $data):string
     {
         try {
@@ -85,6 +85,19 @@ class UserServices
         {
             return $e->getMessage();
         }
+    }
+    public function toggleEnableStatusServices(User $user): User
+    {
+        if ($user->enable == 1) {
+
+            $user->update(['enable' => $user->enable = 0]);
+        }
+        elseif ($user->enable == 0)
+        {
+            $user->update(['enable' =>  $user->enable = 1]);
+        }
+
+        return $user;
     }
     public function getUserWithProducts(User $user):User
     {

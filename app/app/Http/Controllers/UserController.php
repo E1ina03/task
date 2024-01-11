@@ -24,6 +24,20 @@ class UserController extends Controller
         return response()->json(['message' => 'User created successfully'], 201);
     }
 
+    public function toggleEnableStatus(): UserResource
+    {
+        $user = Auth::user();
+
+        try {
+
+            $updatedUser = $this->userService->toggleEnableStatusServices($user);
+
+            return new UserResource($updatedUser);
+        } catch (\Exception ) {
+            $error = response()->json(['error' => 'Invalid request'], 400);
+            return new UserResource($error);
+        }
+    }
     public function updateUser(Request $request): UserResource
     {
         $user = Auth::user();
