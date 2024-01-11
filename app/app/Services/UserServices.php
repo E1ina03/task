@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Exceptions\Exception;
 use App\Http\Resources\UserResource;
-use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;

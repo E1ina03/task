@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OutController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 
@@ -36,5 +36,5 @@ Route::prefix('users')->group(function () {
         Route::get('/user', [UserController::class, 'getUser']);
     });
 });
-Route::post('/loginUser', [OutController::class, 'login']);
+Route::post('/loginUser', [AuthController::class, 'login']);
 
