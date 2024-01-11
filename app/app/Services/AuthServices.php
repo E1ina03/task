@@ -39,7 +39,7 @@ class AuthServices
         }
         else
         {
-            $e = new Exception("User not found");
+            $e = new Exception("User not found ");
 
             return $e->getMessage();
         }
