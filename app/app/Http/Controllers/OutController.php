@@ -9,13 +9,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class AuthController extends Controller
+class OutController extends Controller
 {
+<<<<<<< Updated upstream:app/app/Http/Controllers/AuthController.php
     /**
      * @property string $password
      * @property mixed email
      *
      */
+=======
+>>>>>>> Stashed changes:app/app/Http/Controllers/OutController.php
 
     public function login(Request $request)
     {
