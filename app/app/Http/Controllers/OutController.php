@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Resources\LoginResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,14 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class OutController extends Controller
 {
-<<<<<<< Updated upstream:app/app/Http/Controllers/AuthController.php
-    /**
-     * @property string $password
-     * @property mixed email
-     *
-     */
-=======
->>>>>>> Stashed changes:app/app/Http/Controllers/OutController.php
 
     public function login(Request $request)
     {
