@@ -10,49 +10,33 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-
     public function __construct(protected UserServices $userService)
     {
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(Request $request): UserResource
     {
-        $data = $request->toArray();
+        $user =  $this->userService->createUser($request);
 
-        $this->userService->createUser($data);
-
-        return response()->json(['message' => 'User created successfully'], 201);
+        return new UserResource($user);
     }
 
-    public function toggleEnableStatus(): UserResource
+    public function toggleEnableStatus(Request $request): UserResource
     {
         $user = Auth::user();
 
-        try {
+        $updatedUser = $this->userService->toggleEnableStatusServices($user,$request);
 
-            $updatedUser = $this->userService->toggleEnableStatusServices($user);
-
-            return new UserResource($updatedUser);
-        } catch (\Exception ) {
-            $error = response()->json(['error' => 'Invalid request'], 400);
-            return new UserResource($error);
-        }
-    }
-    public function updateUser(Request $request): UserResource
-    {
-        $user = Auth::user();
-
-        $data = $request->toArray();
-
-        $updatedUser = $this->userService->updateUser($user, $data);
-        if (is_string($updatedUser))
-        {
-            $error = response()->json(['error' => $updatedUser], 400);
-            return new UserResource($error);
-        }
         return new UserResource($updatedUser);
     }
+    public function updateUser(Request $request):UserResource
+    {
+        $user = Auth::user();
 
+        $updateUser = $this->userService->updateUser($user, $request);
+
+        return new UserResource($updateUser);
+    }
     public function deleteUser(): JsonResponse
     {
         $user = Auth::user();
@@ -64,9 +48,7 @@ class UserController extends Controller
 
     public function getUser(Request $request): UserResource
     {
-        $user = $request->user();
-
-        $userWithProducts = $this->userService->getUserWithProducts($user);
+        $userWithProducts = $this->userService->getUserWithProducts($request);
 
         return new UserResource($userWithProducts);
     }
