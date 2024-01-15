@@ -53,65 +53,54 @@ class UserServices
         $data = $request->toArray();
 
         try {
-            $validator = Validator::make($data,
-                [
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|email',
-                ]
-            );
+            if (isset($data['name'])) {
 
-            if ($validator->fails())
-            {
-                throw new InvalidArgumentException($validator->errors()->first());
+                $validatorName = Validator::make($data, ['name' => 'string|max:255',]);
+
+                if ($validatorName->fails()) {
+
+                    throw new InvalidArgumentException($validatorName->errors()->first());
+                }
+                else {
+                    $user->update(['name' => $data['name']]);
+                }
             }
 
-            $userData = [
-                "name" => $data['name'],
-                "email" => $data['email'],
-            ];
+            if (isset($data['email'])) {
 
-            $existUser = $this->userRepository->findByEmail($userData['email']);
+                $validatorEmail = Validator::make($data, ['email' => 'email',]);
 
-            if ($existUser)
-            {
-                throw  new Exception('User with that email already exists');
+                if ($validatorEmail->fails()) {
+                    throw new InvalidArgumentException($validatorEmail->errors()->first());
+                }
+
+                $existUser = $this->userRepository->findByEmail($data['email']);
+
+                if ($existUser) {
+                    throw new Exception('A user with the same email address already exists');
+                }
+                else {
+                    $user->update(['email' => $data['email'],]);
+                }
             }
-
-            $user->update(
-                [
-                'name' => $userData['name'],
-                'email' => $userData['email'],
-                ]
-            );
-
             return $user;
         }
 
-        catch (\Exception $e)
-        {
-            return $e->getMessage();
+        catch (\Exception $e) {
+            return  $e->getMessage();
         }
     }
+
     public function toggleEnableStatusServices(User $user , Request $request): User
     {
         $data = $request->toArray();
 
-        if ($data['is_enabled'])
-        {
-            $this->userRepository->updateEnable(
-                [
-                    'enable' => $user->enable = true
-                ]
-            );
+        if ($data['is_enabled']) {
+            $this->userRepository->updateEnable(['enable' => $user->enable = true]);
         }
 
-        else
-        {
-            $this->userRepository->updateEnable(
-                [
-                    'enable' => $user->enable = false
-                ]
-            );
+        else {
+            $this->userRepository->updateEnable(['enable' => $user->enable = false]);
         }
 
         return $user;
