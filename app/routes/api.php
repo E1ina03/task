@@ -27,13 +27,13 @@ Route::prefix('products')->group(function () {
     });
 });
 Route::prefix('users')->group(function () {
-    Route::post('/createUser', [UserController::class, 'create']);
+    Route::post('/create', [UserController::class, 'create']);
 
     Route::middleware('auth:api')->group(function () {
-        Route::put('/updateUser', [UserController::class, 'updateUser']);
-        Route::delete('/deleteUser', [UserController::class, 'deleteUser']);
-        Route::post('/switchingUserCapabilities', [UserController::class, 'toggleEnableStatus']);
-        Route::get('/user', [UserController::class, 'getUser']);
+        Route::put('/update', [UserController::class, 'updateUser']);
+        Route::delete('/delete', [UserController::class, 'deleteUser']);
+        Route::post('/switching', [UserController::class, 'toggleEnableStatus']);
+        Route::get('/get', [UserController::class, 'getUser']);
     });
 });
 Route::post('/loginUser', [AuthController::class, 'login']);
