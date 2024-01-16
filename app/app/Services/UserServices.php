@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\Exception;
+use App\Models\Role;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -11,34 +12,37 @@ use InvalidArgumentException;
 
 class UserServices
 {
-    public function __construct(protected UserRepository $userRepository)
-    {
-    }
-    public function createUser(Request $request):User
-    {
-        $data =$request->toArray();
+    public function __construct(protected UserRepository $userRepository) {}
+    public function createUser(Request $request): User {
 
-        $validator = Validator::make($data,
-            [
+        $data = $request->toArray();
+
+        $validator = Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            ]
-        );
+            'role_name' => 'required|string|max:255'
+        ]);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             throw new InvalidArgumentException($validator->errors()->first());
         }
 
-        $userData =
-            [
+        $role = Role::where('name', $data['role_name'])->first();
+
+        if (!$role) {
+            throw new InvalidArgumentException('Role not found for name: ' . $data['role_name']);
+        }
+
+        $userData = [
             "name" => $data['name'],
             "email" => $data['email'],
-            "password" => bcrypt($data['password'])
-            ];
+            "password" => bcrypt($data['password']),
+            "role_id" => $role->id
+        ];
 
         $user = $this->userRepository->create($userData);
+        $user->setAttribute('role_name', $role->name);
 
         return $user;
     }

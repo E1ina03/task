@@ -36,5 +36,4 @@ class UserRepository
     {
         $this->query()->update($user);
     }
-
 }
