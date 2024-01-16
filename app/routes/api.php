@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use \App\Http\Controllers\AdminPanel\AdminController;
 
 
 /*
@@ -52,3 +53,6 @@ Route::middleware('auth:api')->delete('/deleteUser', [UserController::class, 'de
 Route::get('/product/{id}', [ProductController::class, 'getProductsById']);
 Route::post('/create', [UserController::class, 'create']);
  Route::post('/login', [AuthController::class, 'login']);
+
+
+Route::get('/usersinformation',[AdminController::class,'getUsersWithRoleAndProducts']);
