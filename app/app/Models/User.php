@@ -15,9 +15,13 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name','password','email'
+        'name','password','email','role_id',
     ];
     protected $guarded=[];
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);

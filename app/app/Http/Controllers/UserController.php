@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function __construct(protected UserServices $userService)
-    {
-    }
+    public function __construct(protected UserServices $userService) {}
 
     public function create(Request $request): UserResource
     {
