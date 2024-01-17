@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function __construct(protected AuthServices $authService)
-    {
-    }
+    public function __construct(protected AuthServices $authService) {}
 
     public function login(Request $request):LoginResource
     {
