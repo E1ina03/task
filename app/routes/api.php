@@ -16,14 +16,14 @@ use \App\Http\Controllers\AdminPanel\AdminController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 Route::prefix('products')->group(function () {
     Route::post('/create', [ProductController::class, 'create']);
 
     Route::middleware('auth:api')->group(function () {
-        Route::put('/updateProduct', [ProductController::class, 'updateProduct']);
-        Route::delete('/deleteProduct', [ProductController::class, 'deleteProduct']);
-        Route::get('/product', [ProductController::class, 'getProductById']);
-        Route::get('/userOwnedProducts', [ProductController::class, 'getProductByUserId']);
+        Route::put('/update/{id}', [ProductController::class, 'updateProduct']);
+        Route::delete('/delete', [ProductController::class, 'deleteProduct']);
+        Route::get('/product', [ProductController::class, 'getProductByUserId']);
     });
 });
 Route::prefix('users')->group(function () {
@@ -37,6 +37,6 @@ Route::prefix('users')->group(function () {
     });
 });
 
-Route::post('/loginUser', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/admin',[AdminController::class,'getUsersWithRoleAndProducts']);
+Route::middleware('auth:api')->get('/admin',[AdminController::class,'getUsersWithRoleAndProducts']);

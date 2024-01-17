@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
+use App\Exceptions\Exception;
 use App\Models\User;
 
 class AdminServices
 {
-
-    public function getUsersWithRoleAndProducts($user)
+    public function getUsersWithRoleAndProducts($user): User
     {
         try {
             if ($user->role_id == 2){
@@ -22,10 +22,11 @@ class AdminServices
                     ];
                 });
             }
+
             return $usersData;
         }
-        catch (\Exception $e) {
-            return  $e->getMessage();
+        catch (\Exception ) {
+            throw new Exception('user not found');
         }
     }
 }
