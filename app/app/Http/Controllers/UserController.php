@@ -27,19 +27,15 @@ class UserController extends Controller
 
         return new UserResource($updatedUser);
     }
-    public function updateUser(Request $request):UserResource
+    public function updateUser(Request $request)
     {
-        $user = Auth::user();
+        $updateUser = $this->userService->updateUser($request);
 
-        $updateUser = $this->userService->updateUser($user, $request);
-
-        return new UserResource($updateUser);
+        return  $updateUser;
     }
     public function deleteUser(): JsonResponse
     {
-        $user = Auth::user();
-
-        $this->userService->deleteUser($user);
+        $this->userService->deleteUser();
 
         return response()->json(['message' => 'User deleted successfully']);
     }
