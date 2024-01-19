@@ -44,7 +44,8 @@ class AdminServices
                     return ['users' => $usersData];
                 }
                 foreach ($users as $currentUser) {
-                    if (($filter['enable'] == EnumForEnable::ENABLED->value || $filter['enable']  == EnumForEnable::DISABLED->value)
+                    if ($filter['enable'] == EnumForEnable::ENABLED->value || $filter['enable']
+                            == EnumForEnable::DISABLED->value
                         && $currentUser->enable == $filter['enable']) {
                         $filteredUsers[] =
                             [
