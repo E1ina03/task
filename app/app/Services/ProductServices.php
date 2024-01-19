@@ -58,8 +58,13 @@ class ProductServices
         return $product;
     }
 
-    public function deleteProduct(Product $product): void
+    public function deleteProduct(int $userId): string
     {
+        $product = Product::query()->where('user_id', $userId)->first();
+
+        if (!$product) {
+            throw new InvalidArgumentException('Product not found');
+        }
         $product->delete();
-    }
-}
+        return 'Product deleted successfully';
+}}

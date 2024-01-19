@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
+use App\Exceptions\Exception;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Services\AdminServices;
-use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     public function __construct(protected AdminServices $adminService) {}
 
-    public function getUsersWithRoleAndProducts(): User
+    /**
+     * @throws Exception
+     */
+    public function getUsersWithRoleAndProducts(Request $request): array
     {
-        $user = Auth::user();
-        $usersData = $this->adminService->getUsersWithRoleAndProducts($user);
-
-        return $usersData;
+        return $this->adminService->getUsersWithRoleAndProducts($request);
     }
 }
 

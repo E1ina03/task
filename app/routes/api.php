@@ -18,9 +18,8 @@ use \App\Http\Controllers\AdminPanel\AdminController;
 */
 
 Route::prefix('products')->group(function () {
-    Route::post('/create', [ProductController::class, 'create']);
-
     Route::middleware('auth:api')->group(function () {
+        Route::post('/create', [ProductController::class, 'create']);
         Route::put('/update/{id}', [ProductController::class, 'updateProduct']);
         Route::delete('/delete', [ProductController::class, 'deleteProduct']);
         Route::get('/product', [ProductController::class, 'getProductByUserId']);
@@ -28,7 +27,6 @@ Route::prefix('products')->group(function () {
 });
 Route::prefix('users')->group(function () {
     Route::post('/create', [UserController::class, 'create']);
-
     Route::middleware('auth:api')->group(function () {
         Route::put('/update', [UserController::class, 'updateUser']);
         Route::delete('/delete', [UserController::class, 'deleteUser']);
