@@ -17,20 +17,20 @@ class AdminServices
     public function getUsersWithRoleAndProducts(Request $request): ?array
     {
         $user = Auth::user();
-        $filter = $request->get('enable');
-        $sorting = $request->get('name');
+        $filter = $request->all();
+
         try {
             $filteredUsers = [];
 
             if ($user->role_id == 2) {
-                if ($sorting == 'asc'|| $sorting == 'desc'){
-                    $users = User::query()->orderBy('name', $sorting)->get();
+                if ($filter['name']){
+                    $users = User::query()->orderBy('name', $filter['name'])->get();
             }
                 else{
                     $users = User::query()->get();
                 }
 
-                if ($filter == null) {
+                if ($filter['enable'] == null) {
                     $usersData = $users->map(function (User $user) {
                         return [
                             'id' => $user->id,
@@ -44,8 +44,8 @@ class AdminServices
                     return ['users' => $usersData];
                 }
                 foreach ($users as $currentUser) {
-                    if (($filter == EnumForEnable::ENABLED->value || $filter == EnumForEnable::DISABLED->value)
-                        && $currentUser->enable == $filter) {
+                    if (($filter['enable'] == EnumForEnable::ENABLED->value || $filter['enable']  == EnumForEnable::DISABLED->value)
+                        && $currentUser->enable == $filter['enable']) {
                         $filteredUsers[] =
                             [
                                 'id' => $currentUser->id,
