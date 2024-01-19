@@ -46,15 +46,9 @@ class ProductController extends Controller
     {
         $user = Auth::user();
 
-        $product = $this->productService->getProductByUserId($user->id);
+        $product = $this->productService->deleteProduct($user->id);
 
-        if ($product !== null)
-        {
-            $this->productService->deleteProduct($product);
-            return response()->json(['message' => 'Product deleted successfully']);
-        }
-        else {
-            return response()->json(['message' => 'Product not found or unauthorized'], 404);
-        }
+        return new  JsonResponse($product);
+
     }
 }

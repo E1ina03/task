@@ -13,6 +13,7 @@ class AuthController extends Controller
     public function login(Request $request):LoginResource
     {
         try {
+
             $credentials = $this->authService->authenticateUser($request);
 
             if (isset($credentials['token']))
