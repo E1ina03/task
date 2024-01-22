@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
-
+use \App\Http\Controllers\AdminPanel\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,18 +17,24 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::delete('/delete/{userId}', [ProductController::class, 'removeProductByUsingUserId']);
-Route::post('/createProduct', [ProductController::class,'create']);
+Route::prefix('products')->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/create', [ProductController::class, 'create']);
+        Route::put('/update/{id}', [ProductController::class, 'updateProduct']);
+        Route::delete('/delete', [ProductController::class, 'deleteProduct']);
+        Route::get('/product', [ProductController::class, 'getProductByUserId']);
+    });
+});
+Route::prefix('users')->group(function () {
+    Route::post('/create', [UserController::class, 'create']);
+    Route::middleware('auth:api')->group(function () {
+        Route::put('/update', [UserController::class, 'updateUser']);
+        Route::delete('/delete', [UserController::class, 'deleteUser']);
+        Route::post('/switching', [UserController::class, 'toggleEnableStatus']);
+        Route::get('/get', [UserController::class, 'getUser']);
+    });
+});
 
-Route::middleware('auth:api')->get('/user', [UserController::class, 'getUser']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api')->get('/product', [ProductController::class, 'getProductByUserId']);
-Route::middleware('auth:api')->get('/productById', [ProductController::class, 'getProductById']);
-Route::middleware('auth:api')->delete('/deleteProduct', [ProductController::class, 'deleteProduct']);
-Route::middleware('auth:api')->put('/updateProduct', [ProductController::class, 'updateProduct']);
-Route::middleware('auth:api')->put('/updateUser', [UserController::class, 'updateUser']);
-Route::middleware('auth:api')->delete('/deleteUser', [UserController::class, 'deleteUser']);
-Route::get('/product/{id}', [ProductController::class, 'getProductsById']);
-Route::post('/create', [UserController::class, 'create']);
- Route::post('/login', [AuthController::class, 'login']);
-
+Route::middleware('auth:api')->get('/admin',[AdminController::class,'getUsersWithRoleAndProducts']);

@@ -10,49 +10,39 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function __construct(protected UserServices $userService) {}
 
-    public function __construct(protected UserServices $userService)
+    public function create(Request $request): UserResource
     {
+        $user =  $this->userService->createUser($request);
+
+        return new UserResource($user);
     }
 
-    public function create(Request $request): JsonResponse
-    {
-        $data = $request->toArray();
-
-        $this->userService->createUser($data);
-
-        return response()->json(['message' => 'User created successfully'], 201);
-    }
-
-    public function updateUser(Request $request): UserResource
+    public function toggleEnableStatus(Request $request): UserResource
     {
         $user = Auth::user();
 
-        $data = $request->toArray();
+        $updatedUser = $this->userService->toggleEnableStatusServices($user,$request);
 
-        $updatedUser = $this->userService->updateUser($user, $data);
-        if (is_string($updatedUser))
-        {
-            $error = response()->json(['error' => $updatedUser], 400);
-            return new UserResource($error);
-        }
         return new UserResource($updatedUser);
     }
+    public function updateUser(Request $request)
+    {
+        $updateUser = $this->userService->updateUser($request);
 
+        return  $updateUser;
+    }
     public function deleteUser(): JsonResponse
     {
-        $user = Auth::user();
-
-        $this->userService->deleteUser($user);
+        $this->userService->deleteUser();
 
         return response()->json(['message' => 'User deleted successfully']);
     }
 
     public function getUser(Request $request): UserResource
     {
-        $user = $request->user();
-
-        $userWithProducts = $this->userService->getUserWithProducts($user);
+        $userWithProducts = $this->userService->getUserWithProducts($request);
 
         return new UserResource($userWithProducts);
     }

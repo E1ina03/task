@@ -11,23 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
 
-    public function __construct(protected ProductServices $productService)
-    {
-    }
+    public function __construct(protected ProductServices $productService) {}
 
-    public function getProductById(int $productId): ProductResource
-    {
-        try
-        {
-            $product = $this->productService->getProductById($productId);
-
-            return new ProductResource($product);
-        }
-        catch (\Exception $e)
-        {
-            return new ProductResource(response()->json(['message' => $e->getMessage()], 404));
-        }
-    }
 
     public function create(Request $request): JsonResponse
     {
@@ -46,67 +31,24 @@ class ProductController extends Controller
 
         $product = $this->productService->getProductByUserId($user->id);
 
-        if ($product !== null)
-        {
-            return new ProductResource($product);
-        }
-        else
-        {
-            $error = response()->json(['message' => 'Product not found'], 404);
-            return new ProductResource($error);
-        }
+        return new ProductResource($product);
+
     }
 
-    public function updateProduct(Request $request): ProductResource
+    public function updateProduct(Request $request,int $productId ): ProductResource
     {
-        $user = Auth::user();
+        $updatedProduct = $this->productService->updateProduct($request,$productId);
 
-        $product = $this->productService->getProductByUserId($user->id);
-
-        if ($product !== null)
-        {
-            $data = $request->validate(
-                [
-                'product_name' => 'required|string|max:255',
-                ]
-            );
-
-            $updatedProduct = $this->productService->updateProduct($product, $data);
-
-            return new ProductResource($updatedProduct);
-        }
-        else
-        {
-           $error = response()->json(
-               [
-                   'message' => 'Product not found or unauthorized'
-               ], 404);
-
-           return new ProductResource($error);
-        }
+        return new ProductResource($updatedProduct);
     }
 
     public function deleteProduct(): JsonResponse
     {
         $user = Auth::user();
 
-        $product = $this->productService->getProductByUserId($user->id);
+        $product = $this->productService->deleteProduct($user->id);
 
-        if ($product !== null)
-        {
-            $this->productService->deleteProduct($product);
-            return response()->json(
-                [
-                    'message' => 'Product deleted successfully'
-                ]
-            );
-        }
-        else
-        {
-            return response()->json(
-                [
-                    'message' => 'Product not found or unauthorized'
-                ], 404);
-        }
+        return new  JsonResponse($product);
+
     }
 }
