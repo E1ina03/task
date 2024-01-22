@@ -31,7 +31,8 @@ class AdminServices
                 }
                 if (isset($filter['enable']) === false)
                 {
-                    return ['users' => $users];
+                    $usersTotal= count($users);
+                    return ['users' => $users ,'total' =>$usersTotal];
                 }
                 if (isset($filter['enable']))
                 {
@@ -42,10 +43,11 @@ class AdminServices
                   }
                     else{
                         $filteredUsers = User::query()->where('enable', $filter['enable'])->get();
+                        $filteredUsersTotal= count($filteredUsers);
                     }
                 }
             }
-            return ['users' => $filteredUsers];
+            return ['users' => $filteredUsers,'total' => $filteredUsersTotal];
         }
         catch (\Exception $exception)
         {
