@@ -16,38 +16,48 @@ class AdminServices
     {
         $user = Auth::user();
         $filter = $request->all();
+        $perPage = $filter['limit'];
+        $page = $filter['offset'];
 
-        try
-        {
+        try {
             $filteredUsers = [];
 
             if ($user->role_id == 2)
             {
-                $users = User::query()->get();
+                $users = User::query()->paginate($perPage, page: $page);
 
                 if (isset($filter['name']))
                 {
-                    $users = User::query()->orderBy('name', $filter['name'])->get();
+                    $users = User::query()->orderBy('name', $filter['name'])
+                        ->paginate($perPage, page: $page);
                 }
                 if (isset($filter['enable']) === false)
                 {
-                    $usersTotal= count($users);
-                    return ['users' => $users ,'total' =>$usersTotal];
+                    $usersTotal = $users->total();
+                    return [
+                        'users' => $users,
+                        'total' => $usersTotal
+                    ];
                 }
                 if (isset($filter['enable']))
                 {
                     if (isset($filter['name']))
                     {
-                      $filteredUsers = User::query()->where('enable', $filter['enable'])
-                          ->orderBy('name',$filter['name'])->get();
-                  }
-                    else{
-                        $filteredUsers = User::query()->where('enable', $filter['enable'])->get();
-                        $filteredUsersTotal= count($filteredUsers);
+                        $filteredUsers = User::query()->where('enable', $filter['enable'])
+                            ->orderBy('name', $filter['name'])->paginate($perPage, page: $page);
+                    }
+                    else
+                    {
+                        $filteredUsers = User::query()->where('enable', $filter['enable'])->paginate(
+                            $perPage,
+                            page: $page
+                        );
                     }
                 }
             }
-            return ['users' => $filteredUsers,'total' => $filteredUsersTotal];
+
+            $filteredUsersTotal = $filteredUsers->total();
+            return ['users' => $filteredUsers, 'total' => $filteredUsersTotal];
         }
         catch (\Exception $exception)
         {

@@ -37,4 +37,4 @@ Route::prefix('users')->group(function () {
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api')->get('/admin',[AdminController::class,'getUsersWithRoleAndProducts']);
+Route::middleware('auth:api')->get('/admin', [AdminController::class,'getUsersWithRoleAndProducts']);
