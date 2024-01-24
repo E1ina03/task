@@ -19,7 +19,7 @@ class WeatherServices
 
         $apiUrl = env('WEATHER_URL');
 
-     $url = "$apiUrl$apiKey&q=$city";
+     $url = "$apiUrl $apiKey&q=$city";
 
         try
         {
