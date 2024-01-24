@@ -12,8 +12,11 @@ class WeatherServices
     public function getCurrentWeather(Request $request): JsonResponse
     {
         $data = $request->toArray();
+
         $city = $data['city'];
+
         $apiKey = env('WEATHER_API_KEY');
+
         $apiUrl = env('WEATHER_URL');
 
      $url = "$apiUrl$apiKey&q=$city";
