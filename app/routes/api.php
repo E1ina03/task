@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\ProductController;
 use \App\Http\Controllers\AdminPanel\AdminController;
 
@@ -38,3 +39,5 @@ Route::prefix('users')->group(function () {
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->get('/admin', [AdminController::class,'getUsersWithRoleAndProducts']);
+
+Route::get('/current-weather', [WeatherController::class, 'getCurrentWeather']);
