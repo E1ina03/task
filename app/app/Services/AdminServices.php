@@ -15,8 +15,11 @@ class AdminServices
     public function getUsersWithRoleAndProducts(Request $request): ?array
     {
         $user = Auth::user();
+
         $filter = $request->all();
+
         $perPage = $filter['limit'];
+
         $page = $filter['offset'];
 
         try {
@@ -31,6 +34,17 @@ class AdminServices
                     $users = User::query()->orderBy('name', $filter['name'])
                         ->paginate($perPage, page: $page);
                 }
+                if (isset($filter['firstname'])){
+                    if (isset($filter['name'])){
+                        $users = User::query()->where('name',$filter['firstname'])
+                            ->orderBy('name', $filter['name'])
+                            ->paginate($perPage, page: $page);
+                    }
+                   else{
+                       $users = User::query()->where('name',$filter['firstname'])
+                           ->paginate($perPage, page: $page);
+                   }
+                }
                 if (isset($filter['enable']) === false)
                 {
                     $usersTotal = $users->total();
@@ -44,6 +58,15 @@ class AdminServices
                     if (isset($filter['name']))
                     {
                         $filteredUsers = User::query()->where('enable', $filter['enable'])
+                            ->orderBy('name', $filter['name'])->paginate($perPage, page: $page);
+                    }
+                    elseif (isset($filter['firstname'])){
+                        $filteredUsers = User::query()->where('enable', $filter['enable'])
+                            ->where('name', $filter['firstname'])->paginate($perPage, page: $page);
+                    }
+                    elseif (isset($filter['name']) && isset($filter['firstname'])){
+                        $filteredUsers = User::query()->where('enable', $filter['enable'])
+                            ->where('name', $filter['firstname'])
                             ->orderBy('name', $filter['name'])->paginate($perPage, page: $page);
                     }
                     else
