@@ -3,13 +3,17 @@
 namespace App\Services;
 
 use App\Models\Weather;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
+
 class WeatherServices
 {
-    public function getCurrentWeather($apiKey, $data): JsonResponse
+    public function getCurrentWeather(Request $request): JsonResponse
     {
-     $city = $data['city'];
+        $data = $request->toArray();
+        $city = $data['city'];
+        $apiKey = env('WEATHER_API_KEY');
 
      $url = "https://api.weatherapi.com/v1/current.json?key=$apiKey&q=$city";
 
