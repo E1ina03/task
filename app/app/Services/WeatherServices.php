@@ -14,8 +14,9 @@ class WeatherServices
         $data = $request->toArray();
         $city = $data['city'];
         $apiKey = env('WEATHER_API_KEY');
+        $apiUrl = env('WEATHER_URL');
 
-     $url = "https://api.weatherapi.com/v1/current.json?key=$apiKey&q=$city";
+     $url = "$apiUrl$apiKey&q=$city";
 
         try
         {
