@@ -32,7 +32,7 @@ Route::prefix('users')->group(function () {
         Route::put('/update', [UserController::class, 'updateUser']);
         Route::delete('/delete', [UserController::class, 'deleteUser']);
         Route::post('/switching', [UserController::class, 'toggleEnableStatus']);
-        Route::get('/get', [UserController::class, 'getUser']);
+        Route::get('/getusers', [UserController::class, 'getUsers']);
     });
 });
 
@@ -40,4 +40,4 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->get('/admin', [AdminController::class,'getUsersWithRoleAndProducts']);
 
-Route::get('/current-weather', [WeatherController::class, 'getCurrentWeather']);
+Route::get('/weather', [WeatherController::class, 'getCurrentWeather']);
