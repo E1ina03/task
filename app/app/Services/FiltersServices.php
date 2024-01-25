@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class UserFiltersServices
+class FiltersServices
 {
     public function applyFilters(Builder $query, array $filters): Builder
     {

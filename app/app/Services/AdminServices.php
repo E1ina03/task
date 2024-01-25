@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminServices
 {
-    public function __construct( protected UserFiltersServices $userFilterService) {}
+    public function __construct( protected FiltersServices $userFilterService) {}
 
     public function getUsersWithRoleAndProducts(Request $request): ?array
     {
