@@ -40,9 +40,9 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted successfully']);
     }
 
-    public function getUser(Request $request): UserResource
+    public function getUsers(Request $request): UserResource
     {
-        $userWithProducts = $this->userService->getUserWithProducts($request);
+        $userWithProducts = $this->userService->getUsersWithProducts($request);
 
         return new UserResource($userWithProducts);
     }

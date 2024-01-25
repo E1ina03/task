@@ -111,7 +111,7 @@ class UserServices
         return $user;
     }
 
-    public function getUserWithProducts(Request $request): User
+    public function getUsersWithProducts(Request $request): User
     {
         $user = $request->user();
 
