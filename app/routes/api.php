@@ -1,11 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\WeatherController;
-use App\Http\Controllers\ProductController;
-use \App\Http\Controllers\AdminPanel\AdminController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\User\IndexUserController;
+use App\Http\Controllers\User\CreateUserController;
+use App\Http\Controllers\User\UpdateUserController;
+use App\Http\Controllers\User\DeleteUserController;
+use App\Http\Controllers\AdminPanel\AdminController;
+use App\Http\Controllers\Product\ReadProductController;
+use App\Http\Controllers\Product\CreateProductController;
+use App\Http\Controllers\Product\UpdateProductController;
+use App\Http\Controllers\Product\DeleteProductController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,21 +28,22 @@ use \App\Http\Controllers\AdminPanel\AdminController;
 
 Route::prefix('products')->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::post('/create', [ProductController::class, 'create']);
-        Route::put('/update/{id}', [ProductController::class, 'updateProduct']);
-        Route::delete('/delete', [ProductController::class, 'deleteProduct']);
-        Route::get('/product', [ProductController::class, 'getProductByUserId']);
+        Route::post('/create', [CreateProductController::class, 'create']);
+        Route::put('/update', [UpdateProductController::class, 'update']);
+        Route::delete('/delete', [DeleteProductController::class, 'delete']);
+        Route::get('/read', [ReadProductController::class, 'read']);
     });
 });
 Route::prefix('users')->group(function () {
-    Route::post('/create', [UserController::class, 'create']);
+    Route::post('/create', [CreateUserController::class, 'create']);
     Route::middleware('auth:api')->group(function () {
-        Route::put('/update', [UserController::class, 'updateUser']);
-        Route::delete('/delete', [UserController::class, 'deleteUser']);
-        Route::post('/switching', [UserController::class, 'toggleEnableStatus']);
-        Route::get('/getusers', [UserController::class, 'getUsers']);
+        Route::put('/update', [UpdateUserController::class, 'update']);
+        Route::delete('/delete', [DeleteUserController::class, 'delete']);
+        Route::get('/index', [IndexUserController::class, 'index']);
     });
 });
+
+
 
 Route::post('/login', [AuthController::class, 'login']);
 

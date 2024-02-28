@@ -4,11 +4,15 @@ namespace App\Services;
 
 use App\Exceptions\Exception;
 use App\Models\User;
+use App\Repositories\AuthRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;;
 
 class AuthServices
 {
+    public function __construct(protected AuthRepository $authRepository)
+    {
+    }
     public function authenticateUser($request)
     {
         Validator::make($request->all(),
@@ -17,7 +21,8 @@ class AuthServices
         'password' => 'required|string'
             ]
         );
-        $user = User::query()->where('email', $request->email)->first();
+        $user = $this->authRepository->findByEmail($request->email);
+
 
         if ($user && $user->enable == 1)
         {

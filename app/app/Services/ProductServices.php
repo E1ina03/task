@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -11,60 +12,68 @@ use InvalidArgumentException;
 class ProductServices
 {
 
-    public function createProduct(array $data, int $userId): Product
-    {
-
-        $validator = Validator::make($data, ['product_name' => 'required|string|max:255',]);
-
-        if ($validator->fails())
-        {
-            throw new InvalidArgumentException($validator->errors()->first());
-        }
-
-        return Product::create(
-            [
-            'product_name' => $data['product_name'],
-            'user_id' => $userId,
-        ]);
-    }
+//    public function __construct(protected ProductRepository $productRepository)
+//    {
+//    }
+//
+//    public function createProduct(array $data, int $userId): Product
+//    {
+//        $validator = Validator::make($data, ['product_name' => 'required|string|max:255']);
+//
+//        if ($validator->fails()) {
+//            throw new InvalidArgumentException($validator->errors()->first());
+//        }
+//
+//        return $this->productRepository->create($data, $userId);
+//    }
 
     public function getProductByUserId(int $userId): ?Product
     {
-        $product = Product::where('user_id', $userId)->first();
-        if (!$product) {
+        $product = $this->productRepository->getByUserId($userId);
+
+        if (!$product)
+        {
             throw new InvalidArgumentException('Product not found');
         }
         return $product;
     }
 
-    public function updateProduct(Request $request, int $productId ): Product
+    public function updateProduct(Request $request, int $productId): Product
     {
         $user = Auth::user();
         $data = $request->toArray();
-        $product =Product::find($productId);
-        $validator = Validator::make($data, ['product_name' => 'required|string|max:255',]);
+
+        $validator = Validator::make($data, [
+            'product_name' => 'required|string|max:255',
+        ]);
 
         if ($validator->fails())
         {
-            throw new InvalidArgumentException("product not defined ");
+            throw new InvalidArgumentException("Product not defined");
+        }
+        $product = $this->productRepository->findProduct($productId);
+
+        if (!$product)
+        {
+            throw new InvalidArgumentException('Product not found');
+        }
+        if ($user->id != $product->user_id)
+        {
+            throw new InvalidArgumentException("The product does not belong to this user");
         }
 
-        if ($user->id == $product->user_id){
-            $product->update(['product_name' => $data['product_name']]);
-        }
-        else{
-            throw new InvalidArgumentException("the product does not belong to this user");
-        }
-        return $product;
+        $updateData = ['product_name' => $data['product_name']];
+
+        return $this->productRepository->update($updateData);
     }
 
     public function deleteProduct(int $userId): string
     {
-        $product = Product::query()->where('user_id', $userId)->first();
+        $product =$this->productRepository->findProductByUserId($userId);
 
         if (!$product) {
             throw new InvalidArgumentException('Product not found');
         }
-        $product->delete();
+        $this->productRepository->delete($product);
         return 'Product deleted successfully';
 }}

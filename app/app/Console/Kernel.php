@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->command('delete-old-products')->everyTwoMinutes();
         // $schedule->command('inspire')->hourly();
     }
 

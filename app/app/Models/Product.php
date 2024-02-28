@@ -14,6 +14,7 @@ class Product extends Model
     use HasFactory;
     use Notifiable;
 
+    public mixed $user_id;
     protected $guarded = [];
 
     protected $fillable = [

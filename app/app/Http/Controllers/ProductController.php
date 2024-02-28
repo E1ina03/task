@@ -14,16 +14,16 @@ class ProductController extends Controller
     public function __construct(protected ProductServices $productService) {}
 
 
-    public function create(Request $request): JsonResponse
-    {
-        $data = $request->toArray();
-
-        $user = Auth::user();
-
-        $product = $this->productService->createProduct($data, $user->id);
-
-        return response()->json($product, 201);
-    }
+//    public function create(Request $request): JsonResponse
+//    {
+//        $data = $request->toArray();
+//
+//        $user = Auth::user();
+//
+//        $product = $this->productService->createProduct($data, $user->id);
+//
+//        return response()->json($product, 201);
+//    }
 
     public function getProductByUserId(): ProductResource
     {

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginResource;
 use App\Services\AuthServices;
 use Illuminate\Http\Request;
@@ -12,8 +13,8 @@ class AuthController extends Controller
 
     public function login(Request $request):LoginResource
     {
-        try {
 
+        try {
             $credentials = $this->authService->authenticateUser($request);
 
             if (isset($credentials['token']))
