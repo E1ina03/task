@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductResource;
+use Illuminate\Http\Request;
 use App\Services\ProductServices;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-
     public function __construct(protected ProductServices $productService) {}
 
 
