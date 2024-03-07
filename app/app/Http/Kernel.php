@@ -22,6 +22,9 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
+    protected $routeMiddleware = [
+        'checkViewPermission' => \App\Http\Middleware\CheckViewPermission::class,
+    ];
 
     /**
      * The application's route middleware groups.

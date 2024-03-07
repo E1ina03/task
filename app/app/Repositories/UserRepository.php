@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Models\User;
-use App\Services\User\Create\Dto\CreateDto;
-use App\Services\User\Update\Dto\UpdateDto;
+use App\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use App\Interfaces\UserRepositoryInterface;
+use App\Services\User\Create\Dto\CreateUserDto;
+use App\Services\User\Update\Dto\UpdateUserDto;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -16,7 +19,7 @@ class UserRepository implements UserRepositoryInterface
         return User::query();
     }
 
-    public function createUser(CreateDto $dto): Model|Builder
+    public function createUser(CreateUserDto $dto): Model|Builder
     {
         return $this->query()->create([
             "name" => $dto->name,
@@ -27,14 +30,14 @@ class UserRepository implements UserRepositoryInterface
         ]);
     }
 
-    public function deleteUser($userId)
+    public function deleteUser(int $userId): void
     {
-
         $user = $this->query()->find($userId);
 
-        if ($user) {
-
-           return $user->update([
+        if ($user === null) {
+            throw new \Exception('Product not found');
+        } else {
+            $user->update([
                 'name' => 'deleted',
                 'email' => "$userId deleted",
                 'password' => "$userId deleted",
@@ -46,17 +49,28 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function updateUser(UpdateDto $dto, int $userId)
+    public function updateUser(UpdateUserDto $dto, int $userId): void
     {
-        return $this->query()->where('id',$userId)->update([
-            'name' => $dto->name,
-            'email' => $dto->email
-        ]);
+        $user = $this->query()->find($userId);
+
+        if ($user === null) {
+            throw new \Exception('User not found');
+        } else {
+            $this->query()->where('id', $userId)->update([
+                'name' => $dto->name,
+                'email' => $dto->email
+            ]);
+        }
     }
 
-    public function index($indexId): Model|Builder|null
+    public function getUserById(int $userId): ?User
     {
-        return User::query()->where('id', $indexId)->first();
+        $user = User::query()->where('id', $userId)->first();
+        if ($user === null) {
+            throw new Exception('Product not found');
+        }
+
+        return $user;
     }
 
 //    public function getUsersWithProducts(int $userId): ?User

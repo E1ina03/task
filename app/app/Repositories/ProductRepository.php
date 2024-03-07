@@ -1,13 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Repositories;
 
-use App\Interfaces\ProductRepositoryInterface;
+use App\Exceptions\Exception;
 use App\Models\Product;
-use App\Services\Product\Delete\Dto\DeleteDto;
-use App\Services\Product\Read\Dto\ReadDto;
-use App\Services\Product\Update\Dto\UpdateDto;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+use App\Services\Product\Get\Dto\GetProductDto;
+use App\Services\Product\Update\Dto\UpdateProductDto;
+use App\Services\Product\Delete\Dto\DeleteProductDto;
+use App\Interfaces\ProductRepositoryInterface;
+
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -21,58 +26,48 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->query()->create($data);
     }
 
-    public function update(UpdateDto $updateDto)
+    /**
+     * @throws \Exception
+     */
+    public function update(UpdateProductDto $updateDto): void
     {
-        $a = $this->query()->find($updateDto->id);
+        $product = $this->query()->find($updateDto->id);
 
-        if ($a !== null) {
+        if ($product === null)
+        {
+            throw new \Exception('Product not found');
+        }
+        else
+        {
             $user = Auth::user();
             $this->query()->where('user_id', $user->id)->update(
                 [
                     'product_name' => $updateDto->product_name
                 ]
             );
-            return [
-                'Product successfully updated'
-            ];
-        } else {
-            return [
-                'product not found'
-            ];
         }
     }
 
-    public function delete(DeleteDto $dto)
+    public function delete(DeleteProductDto $dto): void
     {
         $product = $this->query()->find($dto->id);
 
-        if ($product !== null) {
+        if ($product === null) {
+            throw new \Exception('Product not found');
+        } else {
             $user = Auth::user();
             $this->query()->where('user_id', $user->id)->delete();
-            return [
-                'Product successfully deleted'
-            ];
-        } else {
-            return [
-                'product not found'
-            ];
         }
     }
 
-    public function getProduct(ReadDto $dto)
+    public function getProduct(GetProductDto $dto): ?Product
     {
         $product = $this->query()->find($dto->id);
 
-        if ($product !== null) {
-            return [
-             'id' => $product['id'],
-             'product_name' => $product['product_name'],
-             'user_id' => $product['user_id']
-            ];
-        } else {
-            return [
-                'product not found'
-            ];
+        if ($product === null) {
+            throw new Exception('Product not found');
         }
+
+        return $product;
     }
 }

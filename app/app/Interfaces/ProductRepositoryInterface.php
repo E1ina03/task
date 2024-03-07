@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Interfaces;
 
-use App\Services\Product\Delete\Dto\DeleteDto;
-use App\Services\Product\Read\Dto\ReadDto;
-use App\Services\Product\Update\Dto\UpdateDto;
+use App\Services\Product\Get\Dto\GetProductDto;
+use App\Services\Product\Delete\Dto\DeleteProductDto;
+use App\Services\Product\Update\Dto\UpdateProductDto;
 
 interface ProductRepositoryInterface
 {
     public function create(array $data);
 
-    public function update(UpdateDto $updateDto);
+    public function update(UpdateProductDto $updateDto);
 
-    public function delete(DeleteDto $dto);
+    public function delete(DeleteProductDto $dto);
 
-    public function getProduct(ReadDto $dto);
+    public function getProduct(GetProductDto $dto);
 }

@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
+use App\Interfaces\CompanyRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\CompanyRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ProductRepositoryInterface::class,
             ProductRepository::class
+        );
+        $this->app->bind(
+            CompanyRepositoryInterface::class,
+            CompanyRepository::class
         );
 
     }
