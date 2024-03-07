@@ -29,21 +29,21 @@ class CompanyRepository implements CompanyRepositoryInterface
         if ($company === null) {
             throw new \Exception('Company not found');
         }
-        if (isset($data['name'],)){
+        if (isset($data['name'])&&(!isset($data['phone'])) ){
             $this->query()->where('id', $companyId)->update([
                 'name' => $data['name'],
+                'phone' => "",
                 ]);
         }
-        elseif (isset($data['phone'],)){
-            $this->query()->where('id', $companyId)->update([
+        else{
+            $updateData = [
+                'name' => $data['name'],
                 'phone' => $data['phone'],
-            ]);
+            ];
+            $this->query()->where('id', $companyId)->update($updateData);
         }
-        $updateData = [
-            'name' => $data['name'],
-            'phone' => $data['phone'],
-        ];
-        $this->query()->where('id', $companyId)->update($updateData);
+
+
     }
 
     public function getCompany(GetCompanyDto $dto): ?Company

@@ -16,13 +16,17 @@ class UpdateCompanyRequest extends FormRequest
     public const ID = 'id';
     public const NAME = 'name';
 
-
+    public const PHONE = 'phone';
 
     public function rules()
     {
         return [
             self::NAME => [
                 'string',
+            ],
+
+            self::PHONE => [
+                'min:8',
             ],
 
             self::ID => [
@@ -43,6 +47,12 @@ class UpdateCompanyRequest extends FormRequest
 
     public function getPhone(): ?string
     {
-        return $this->get('phone');
+    $phone = $this->get('phone');
+    $pattern = '/[a-zA-Zа-яА-Я]/u';
+        if (preg_match($pattern, $phone)) {
+            throw new \Exception('phone number must contain only numbers');
+        }
+        return $phone;
     }
 }
+

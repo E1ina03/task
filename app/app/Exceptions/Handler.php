@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use Throwable;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -27,24 +27,20 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-
         });
     }
 
     public function render($request, Throwable $e)
     {
-        dd($e);
         if ($e instanceof AuthenticationException) {
             return response()->json([
-               'success' => false,
-               'message' => 'Unauthenticated',
+                'success' => false,
+                'message' => 'Unauthenticated',
             ], 401);
         }
-        else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Non-admin users do not have access to these requests',
-            ], 403);
-        }
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage(),
+        ], 500);
     }
 }
