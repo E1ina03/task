@@ -2,7 +2,7 @@
 
 namespace App\Services\User\Delete\Dto;
 
-use App\Http\Middleware\Requests\UserRequests\DeleteUserRequest;
+use App\Http\Requests\UserRequests\DeleteUserRequest;
 use Spatie\LaravelData\Data;
 
 class DeleteUserDto extends Data

@@ -2,7 +2,7 @@
 
 namespace App\Services\User\Create\Dto;
 
-use App\Http\Middleware\Requests\UserRequests\CreateUserRequest;
+use App\Http\Requests\UserRequests\CreateUserRequest;
 use Spatie\LaravelData\Data;
 
 class CreateUserDto extends Data

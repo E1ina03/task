@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware\Requests\CompanyRequests;
+namespace App\Http\Requests\CompanyRequests;
 
 use App\Models\Company;
 use Illuminate\Foundation\Http\FormRequest;

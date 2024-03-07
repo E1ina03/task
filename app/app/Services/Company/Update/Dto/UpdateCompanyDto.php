@@ -2,8 +2,8 @@
 
 namespace App\Services\Company\Update\Dto;
 
+use App\Http\Requests\CompanyRequests\UpdateCompanyRequest;
 use Spatie\LaravelData\Data;
-use App\Http\Middleware\Requests\CompanyRequests\UpdateCompanyRequest;
 
 class UpdateCompanyDto extends Data
 {

@@ -3,7 +3,7 @@
 namespace App\Services\Company\Create\Dto;
 
 
-use App\Http\Middleware\Requests\CompanyRequests\CreateCompanyRequest;
+use App\Http\Requests\CompanyRequests\CreateCompanyRequest;
 use Spatie\LaravelData\Data;
 
 class CreateCompanyDto extends Data

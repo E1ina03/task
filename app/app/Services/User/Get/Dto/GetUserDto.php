@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\User\Get\Dto;
 
-use App\Http\Middleware\Requests\UserRequests\GetUserRequest;
+use App\Http\Requests\UserRequests\GetUserRequest;
 use Spatie\LaravelData\Data;
 
 class GetUserDto extends Data

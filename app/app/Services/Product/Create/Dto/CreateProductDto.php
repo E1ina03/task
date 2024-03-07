@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Product\Create\Dto;
 
+use App\Http\Requests\ProductRequests\CreateProductRequests;
 use Spatie\LaravelData\Data;
-use App\Http\Middleware\Requests\ProductRequests\CreateProductRequests;
 
 class CreateProductDto  extends Data
 {

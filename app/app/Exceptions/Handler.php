@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use Illuminate\Support\Facades\Log;
 use Throwable;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -33,14 +34,21 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($e instanceof AuthenticationException) {
+            Log::error('Unauthenticated');
             return response()->json([
                 'success' => false,
                 'message' => 'Unauthenticated',
             ], 401);
         }
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage(),
-        ], 500);
+        else{
+            Log::error($e->getMessage());
+            return response()->json([
+
+                'success' => false,
+                'message' => $e->getMessage(),
+
+            ], 500);
+        }
+
     }
 }

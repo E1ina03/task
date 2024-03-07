@@ -2,7 +2,7 @@
 
 namespace App\Services\Company\Get\Dto;
 
-use App\Http\Middleware\Requests\CompanyRequests\GetCompanyRequest;
+use App\Http\Requests\CompanyRequests\GetCompanyRequest;
 use Spatie\LaravelData\Data;
 
 class GetCompanyDto extends Data

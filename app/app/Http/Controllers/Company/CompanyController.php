@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Company;
 
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Get\Dto\GetCompanyDto;
-use Illuminate\Auth\Access\AuthorizationException;
-use App\Services\Company\Delete\Dto\DeleteCompanyDto;
-use App\Services\Company\Create\Dto\CreateCompanyDto;
-use App\Services\Company\Update\Dto\UpdateCompanyDto;
-use App\Services\Company\Get\Actions\GetCompanyAction;
-use App\Services\Company\Delete\Actions\DeleteCompanyAction;
-use App\Services\Company\Update\Actions\UpdateCompanyAction;
+use App\Http\Requests\CompanyRequests\CreateCompanyRequest;
+use App\Http\Requests\CompanyRequests\DeleteCompanyRequest;
+use App\Http\Requests\CompanyRequests\GetCompanyRequest;
+use App\Http\Requests\CompanyRequests\UpdateCompanyRequest;
 use App\Services\Company\Create\Actions\CreateCompanyAction;
-use App\Http\Middleware\Requests\CompanyRequests\GetCompanyRequest;
-use App\Http\Middleware\Requests\CompanyRequests\DeleteCompanyRequest;
-use App\Http\Middleware\Requests\CompanyRequests\UpdateCompanyRequest;
-use App\Http\Middleware\Requests\CompanyRequests\CreateCompanyRequest;
+use App\Services\Company\Create\Dto\CreateCompanyDto;
+use App\Services\Company\Delete\Actions\DeleteCompanyAction;
+use App\Services\Company\Delete\Dto\DeleteCompanyDto;
+use App\Services\Company\Get\Actions\GetCompanyAction;
+use App\Services\Company\Get\Dto\GetCompanyDto;
+use App\Services\Company\Update\Actions\UpdateCompanyAction;
+use App\Services\Company\Update\Dto\UpdateCompanyDto;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {

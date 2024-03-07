@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware\Requests\UserRequests;
+namespace App\Http\Requests\UserRequests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteUserRequest extends FormRequest
+class GetUserRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return true;
+    }
 
     public function rules(): array
     {
@@ -16,7 +20,7 @@ class DeleteUserRequest extends FormRequest
         ];
     }
 
-    public function getUserId(): int
+    public function getUserId()
     {
         return $this->user()->id;
     }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Middleware\Requests\CompanyRequests;
+namespace App\Http\Requests\CompanyRequests;
 
 use App\Models\Company;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteCompanyRequest extends FormRequest
+class GetCompanyRequest extends FormRequest
 {
     public function authorize()
     {
@@ -23,7 +23,7 @@ class DeleteCompanyRequest extends FormRequest
         ];
     }
 
-    public function companyId(): int
+    public function getCompanyId(): int
     {
         return $this->get(self::ID);
     }

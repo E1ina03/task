@@ -2,8 +2,8 @@
 
 namespace App\Services\User\Update\Dto;
 
+use App\Http\Requests\UserRequests\UpdateUserRequest;
 use Spatie\LaravelData\Data;
-use App\Http\Middleware\Requests\UserRequests\UpdateUserRequest;
 
 class UpdateUserDto extends Data
 {

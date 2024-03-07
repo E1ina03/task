@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Product\Update\Dto;
 
+use App\Http\Requests\ProductRequests\UpdateProductRequests;
 use Spatie\LaravelData\Data;
-use App\Http\Middleware\Requests\ProductRequests\UpdateProductRequests;
 
 class UpdateProductDto extends Data
 {

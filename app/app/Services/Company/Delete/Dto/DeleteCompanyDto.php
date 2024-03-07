@@ -2,7 +2,7 @@
 
 namespace App\Services\Company\Delete\Dto;
 
-use App\Http\Middleware\Requests\CompanyRequests\DeleteCompanyRequest;
+use App\Http\Requests\CompanyRequests\DeleteCompanyRequest;
 use Spatie\LaravelData\Data;
 
 class DeleteCompanyDto  extends Data

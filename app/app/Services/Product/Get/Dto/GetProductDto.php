@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Product\Get\Dto;
 
-use App\Http\Middleware\Requests\ProductRequests\GetProductRequest;
+use App\Http\Requests\ProductRequests\GetProductRequest;
 use Spatie\LaravelData\Data;
 
 class GetProductDto extends Data

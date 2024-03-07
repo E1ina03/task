@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware\Requests\UserRequests;
+namespace App\Http\Requests\UserRequests;
 
 use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
